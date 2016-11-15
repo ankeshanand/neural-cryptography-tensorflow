@@ -20,3 +20,7 @@ To train the neural networks, run the `main.py` script.
 
 * carpedm20's DCGAN [implementation](https://github.com/carpedm20/DCGAN-tensorflow) in TensorFlow. 
 * Liam's [implementation](https://github.com/nlml/adversarial-neural-crypt) of Adversarial Neural Cryptography in Theano. 
+
+## License
+
+MIT
