@@ -6,6 +6,12 @@ Two Neural Networks (Alice and Bob) learn to communicate secretly with each othe
 
 ![Setup](assets/diagram.png)
 
+## Pre-requisites
+
+* TensorFlow 
+* Seaborn (for plots)
+* Numpy
+
 ## Usage 
 First, ensure you have the dependencies installed.
 
