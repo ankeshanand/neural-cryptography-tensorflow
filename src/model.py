@@ -48,18 +48,21 @@ class CryptoNet(object):
         self.key = tf.placeholder("float", [None, self.key_len])
 
         # Alice's network
+        # FC layer -> Conv Layer (4 1-D convolutions)
         self.alice_input = tf.concat(concat_dim=1, values=[self.msg, self.key])
         self.alice_hidden = tf.nn.sigmoid(tf.matmul(self.alice_input, self.w_alice))
         self.alice_hidden = tf.expand_dims(self.alice_hidden, 2)
         self.alice_output = tf.squeeze(conv_layer(self.alice_hidden, "alice"))
 
         # Bob's network
+        # FC layer -> Conv Layer (4 1-D convolutions)
         self.bob_input = tf.concat(concat_dim=1, values=[self.alice_output, self.key])
         self.bob_hidden = tf.nn.sigmoid(tf.matmul(self.bob_input, self.w_bob))
         self.bob_hidden = tf.expand_dims(self.bob_hidden, 2)
         self.bob_output = tf.squeeze(conv_layer(self.bob_hidden, "bob"))
 
         # Eve's network
+        # FC layer -> FC layer -> Conv Layer (4 1-D convolutions)
         self.eve_input = self.alice_output
         self.eve_hidden1 = tf.nn.sigmoid(tf.matmul(self.eve_input, self.w_eve1))
         self.eve_hidden2 = tf.nn.sigmoid(tf.matmul(self.eve_hidden1, self.w_eve2))
