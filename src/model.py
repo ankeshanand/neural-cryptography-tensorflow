@@ -14,7 +14,7 @@ from utils import init_weights, gen_data
 
 
 class CryptoNet(object):
-    def __init__(self, sess, msg_len=MSG_LEN, key_len=KEY_LEN, batch_size=BATCH_SIZE,
+    def __init__(self, sess, msg_len=MSG_LEN, batch_size=BATCH_SIZE,
                  epochs=NUM_EPOCHS, learning_rate=LEARNING_RATE):
         """
         Args:
@@ -28,7 +28,7 @@ class CryptoNet(object):
 
         self.sess = sess
         self.msg_len = msg_len
-        self.key_len = key_len
+        self.key_len = self.msg_len
         self.N = self.msg_len
         self.batch_size = batch_size
         self.epochs = epochs
@@ -86,9 +86,9 @@ class CryptoNet(object):
         self.eve_optimizer = tf.train.AdamOptimizer(self.learning_rate).minimize(
             self.decrypt_err_eve, var_list=self.eve_vars)
 
-        self.bob_errors, self.eve_errors = [],  []
+        self.bob_errors, self.eve_errors = [], []
 
-        # Launch the graph in a session
+        # Begin Training
         tf.initialize_all_variables().run()
         for i in range(self.epochs):
             iterations = 2000
@@ -112,7 +112,7 @@ class CryptoNet(object):
             bs *= 2
 
         for i in range(iterations):
-            msg_in_val, key_val = gen_data(n=bs)
+            msg_in_val, key_val = gen_data(n=bs, msg_len=self.msg_len, key_len=self.key_len)
 
             if network == 'bob':
                 _, decrypt_err = self.sess.run([self.bob_optimizer, self.decrypt_err_bob],
@@ -137,3 +137,4 @@ class CryptoNet(object):
         plt.xlabel('Epoch')
         plt.ylabel('Lowest Decryption error achieved')
         plt.show()
+

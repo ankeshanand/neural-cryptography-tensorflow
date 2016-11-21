@@ -12,10 +12,6 @@ def build_parser():
                         dest='msg_len', help='message length',
                         metavar='MSG_LEN', default=MSG_LEN)
 
-    parser.add_argument('--key-len', type=int,
-                        dest='key_len', help='key length',
-                        metavar='KEY_LEN', default=KEY_LEN)
-
     parser.add_argument('--learning-rate', type=float,
                         dest='learning_rate',
                         help='learning rate (default %(default)s)',
