@@ -49,14 +49,14 @@ class CryptoNet(object):
 
         # Alice's network
         # FC layer -> Conv Layer (4 1-D convolutions)
-        self.alice_input = tf.concat(concat_dim=1, values=[self.msg, self.key])
+        self.alice_input = tf.concat([self.msg, self.key],1)
         self.alice_hidden = tf.nn.sigmoid(tf.matmul(self.alice_input, self.w_alice))
         self.alice_hidden = tf.expand_dims(self.alice_hidden, 2)
         self.alice_output = tf.squeeze(conv_layer(self.alice_hidden, "alice"))
 
         # Bob's network
         # FC layer -> Conv Layer (4 1-D convolutions)
-        self.bob_input = tf.concat(concat_dim=1, values=[self.alice_output, self.key])
+        self.bob_input = tf.concat([self.alice_output, self.key],1)
         self.bob_hidden = tf.nn.sigmoid(tf.matmul(self.bob_input, self.w_bob))
         self.bob_hidden = tf.expand_dims(self.bob_hidden, 2)
         self.bob_output = tf.squeeze(conv_layer(self.bob_hidden, "bob"))
@@ -89,7 +89,7 @@ class CryptoNet(object):
         self.bob_errors, self.eve_errors = [], []
 
         # Begin Training
-        tf.initialize_all_variables().run()
+        tf.global_variables_initializer().run()
         for i in range(self.epochs):
             iterations = 2000
 
